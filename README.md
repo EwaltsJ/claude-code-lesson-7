@@ -7,7 +7,7 @@
 
 ## About this repository
 
-This repository contains the resources and links of the short course "Claude Code: A highly Agentic Coding Assistant".
+This repository contains the resources and links of the short course ["Claude Code: A highly Agentic Coding Assistant"](https://www.deeplearning.ai/courses/claude-code-a-highly-agentic-coding-assistant).
 
 ## Course Overview
 
