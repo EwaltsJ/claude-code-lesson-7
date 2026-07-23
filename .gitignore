@@ -1,1 +1,3 @@
 .DS_Store
+.venv/
+lesson7_files/__pycache__/
