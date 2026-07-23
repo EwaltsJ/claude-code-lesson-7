@@ -3,9 +3,10 @@
 ## Contents
 
 - `EDA_refactored.ipynb` - the analysis notebook: business objectives, data dictionary, configuration, data preparation, metric calculations, charts, and a summary section.
+- `dashboard/app.py` - a Streamlit dashboard version of the analysis, with an interactive date-range filter, KPI cards, and Plotly charts. See [Running the dashboard](#running-the-dashboard) below.
 - `data_loader.py` - loads the raw CSV files and prepares the order-line sales table (joins, delivered-order filter, period columns, delivery days, category/state/review lookups).
 - `business_metrics.py` - metric calculations only (revenue, growth, average order value, order counts, revenue by category/state, delivery speed, review scores, order status).
-- `requirements.txt` - Python dependencies for the notebook and modules.
+- `requirements.txt` - Python dependencies for the notebook, the modules, and the dashboard.
 - `ecommerce_data/` - source CSV files (orders, order_items, products, customers, order_reviews).
 
 ## Setup
@@ -41,6 +42,24 @@ CONFIG["comparison_month"] = 3
 ```
 
 Delivery-speed buckets used in the customer experience section are controlled the same way, through `delivery_speed_bins` and `delivery_speed_labels`. Bin edges follow the `pandas.cut` convention: `[0, 3, 7, float("inf")]` with three labels produces the buckets `(0, 3]`, `(3, 7]`, `(7, inf]`.
+
+## Running the dashboard
+
+`dashboard/app.py` is a Streamlit version of the same analysis, built on top of `data_loader.py` and `business_metrics.py` so both stay backed by identical business logic. Run it from the `lesson7_files` directory:
+
+```bash
+pip install -r requirements.txt
+streamlit run dashboard/app.py
+```
+
+The dashboard layout:
+
+- **Header** - title and a global date-range filter that drives every card and chart below.
+- **KPI row** - Total Revenue, Monthly Growth, Average Order Value, and Total Orders, each compared against an equal-length period immediately preceding the selected range (e.g. selecting all of 2023 compares against all of 2022).
+- **Charts (2x2 grid)** - monthly revenue trend (current period solid, previous period dashed), top 10 product categories by revenue, a US choropleth of revenue by state, and average review score by delivery-speed bucket.
+- **Bottom row** - average delivery time (with a trend indicator) and the average review score with a star rating.
+
+Trend indicators are green for a favorable change and red for an unfavorable one (a longer delivery time counts as unfavorable even though the underlying number went up).
 
 ## Reusing the modules elsewhere
 
